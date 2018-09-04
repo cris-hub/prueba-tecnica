@@ -1,0 +1,36 @@
+
+
+<div class="row">
+    <div class="col-md-12">
+        <button data-target="#confirmarModal" data-toggle="modal" class="btn btn-success btn-block " id="modalSugerir" type="button">
+   <span class="	glyphicon glyphicon-plus"></span>
+        </button>
+      
+      </div>
+  <div class="col-md-12">
+    <app-list></app-list>
+  </div>
+</div>
+
+
+<!-- Modal -->
+
+
+
+<div class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog-lg" role="document" style="z-index: 4000;">
+    <div class="modal-content">
+      <div class="modal-header">
+
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12">
+          <app-product></app-product>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cerrar"   class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

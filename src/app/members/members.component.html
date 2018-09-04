@@ -1,0 +1,14 @@
+<p-menubar [model]="itemsNav" [autoDisplay]="false">
+  <div class="btn-group   ">
+
+    <input *ngIf="activeMenu" class="form-control" type="text" [(ngModel)]='filterService.filter' placeholder="filter" pInputText
+      placeholder="Search">
+    <button *ngIf="activeMenu" (click)="logout()" class="btn glyphicon glyphicon-log-out"></button>
+
+  </div>
+</p-menubar>
+
+<p-tabMenu [model]="itemsTabs" class="
+
+ui-tabmenu-nav
+  "></p-tabMenu>

@@ -1,0 +1,80 @@
+<form #productoForm="ngForm" (ngSubmit)="onSubmit(productoForm)">
+
+  <div class="col-md-7">
+    <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="productoService.selectedProduct.$key">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="form-control" validacion [validaciones]="['requerido']" name="name" #name="ngModel" [(ngModel)]="productoService.selectedProduct.name"
+        placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+      <label>details</label>
+      <textarea class="form-control" validacion [validaciones]="['requerido']" name="details" #name="ngModel" [(ngModel)]="productoService.selectedProduct.details"
+        placeholder="Details product" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Release date</label>
+      <input class="form-control" validacion [validaciones]="['requerido']" type="date" name="releaseDate" #name="ngModel" [(ngModel)]="productoService.selectedProduct.releaseDate"
+        placeholder="Release date" required>
+    </div>
+    <div class="form-group">
+      <label>Mail manufacturer</label>
+      <input class="form-control" validacion [validaciones]="['requerido','correo']" name="mailManufacturer" #name="ngModel" [(ngModel)]="productoService.selectedProduct.mailManufacturer"
+        placeholder="Mail manufacturer" required>
+    </div>
+    <div class="form-group">
+      <label>Country manufacturing</label>
+      <select name="countryManufacturing" validacion [validaciones]="['requerido']" class="form-control" #name="ngModel" [(ngModel)]="productoService.selectedProduct.countryManufacturing">
+        <option [value]="''">Seleccione</option>
+        <option *ngFor="let contry of contries" [value]="contry.name">{{contry.name}}</option>
+      </select>
+
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        <input class="form-control" type="number" validacion [validaciones]="['requerido']" name="Price" #name="ngModel" [(ngModel)]="productoService.selectedProduct.Price"
+          placeholder="Product price " required>
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>available</label>
+      <input class="form-control" type="number" validacion [validaciones]="['requerido']" name="available" #name="ngModel" [(ngModel)]="productoService.selectedProduct.available"
+        placeholder="Available" required>
+    </div>
+    <div class="form-group">
+      <label>sold</label>
+      <input class="form-control" type="number" validacion [validaciones]="['requerido']" name="sold" #name="ngModel" [(ngModel)]="productoService.selectedProduct.sold"
+        placeholder="Sold" required>
+    </div>
+  </div>
+
+  <div  class="col-md-5 ">
+    <form-upload (archivoId)="asignFile($event)"></form-upload>
+    <div *ngIf="productoService.selectedProduct">
+      <div *ngIf="productoService.selectedProduct.fileUpload">
+        <div *ngIf="productoService.selectedProduct.fileUpload.url">
+
+          <img style="width: 350px;height: 350px;" [src]="sanitizer.bypassSecurityTrustResourceUrl(productoService.selectedProduct.fileUpload.url)"
+          />
+
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-md-12">
+        <div class="btn-group btn-group pull-right" role="group" aria-label="...">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-floppy-o"></i>
+            save
+          </button>
+          <button class="btn btn-default" type="button" (click)="resetForm(productoForm)">
+            <i class="fa fa-repeat"></i>
+            Reset
+          </button>
+        </div>
+    </div>
+
+</form>

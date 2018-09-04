@@ -1,0 +1,19 @@
+<div class="centrar">
+
+<div class="card " style="width: 600PX;">
+  <img class="card-img-top image" [src]="user.image" alt="Card image cap">
+  <div *ngIf='user.provider != "password"' class="card-body">
+    <h4 class="card-title">{{user.name}}</h4>
+  </div>
+  <div *ngIf='user.provider == "password"' class="card-body">
+    <form [formGroup]="profileForm">
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" formControlName="name" class="form-control" required>
+      </div>
+    </form>
+    <a (click)="save(profileForm.value)" class="btn btn-primary">Save</a>
+    <form-upload (archivoId)="asignarDocumento($event)"></form-upload>
+  </div>
+</div>  
+</div>  

@@ -1,0 +1,5 @@
+<app-members  [itemsNav]="itemsNav" [itemsTabs]="itemsTabs" [shearch]="false"></app-members>
+  <router-outlet>
+    <div *ngIf="showLoader" class="loading"></div>
+  </router-outlet>
+

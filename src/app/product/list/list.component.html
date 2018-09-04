@@ -1,0 +1,113 @@
+<table class="table table-sm table-hover">
+  <thead>
+    <tr class="">
+      <th [class.active]="filterService.order === 'name'" (click)="setOrder('name')">name
+        <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+      </th>
+      <th *ngIf="showImage">image </th>
+      <th [class.active]="filterService.order === 'details'" (click)="setOrder('details')">details
+        <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+      </th>
+      <th [class.active]="filterService.order === 'countryManufacturing'" (click)="setOrder('countryManufacturing')">countryManufacturing
+        <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+      </th>
+      <th [class.active]="filterService.order === 'Price'" (click)="setOrder('Price')">Price
+        <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+      </th>
+      <th [class.active]="filterService.order === 'available'" (click)="setOrder('available')">available
+        <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+      </th>
+      <th [class.active]="filterService.order === 'sold'" (click)="setOrder('sold')">sold
+        <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+      </th>
+      <th class="width-9">
+        <div title="limite busqueda" class="col-md-6">
+          <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+              <i class="fa fa-list-ul"  title="Paginación"></i>
+            </a>
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+              <li class="records-page-contactos" data-page="5">
+                <a (click)="limiteConsulta(5)">5 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="10">
+                <a (click)="limiteConsulta(10)">10 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="20">
+                <a (click)="limiteConsulta(20)">20 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="30">
+                <a (click)="limiteConsulta(30)">30 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="50">
+                <a (click)="limiteConsulta(50)">50 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="100">
+                <a (click)="limiteConsulta(100)">100 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="200">
+                <a (click)="limiteConsulta(200)">200 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="300">
+                <a (click)="limiteConsulta(300)">300 Registros</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6" title="show image">
+          <label for="showImage" class=" checkbox-inline ">
+            <input id="showImage" type="checkbox" [(ngModel)]="showImage">show image<i class="fa fa-images"></i>
+          </label>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="font-black center-table">
+
+    <tr *ngFor="let product of ProductList  
+    | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'product'}
+     | filter:filterService.filter 
+     | orderBy: filterService.order :reverse:'case-insensitive'">
+      <td>{{product.name}}</td>
+      <td *ngIf="showImage">
+        <div>
+          <img *ngIf="product.fileUpload " style="width: 200px;height: 200px;" [src]="sanitizer.bypassSecurityTrustResourceUrl(product.fileUpload.url)"/>
+        </div>
+      </td>
+      <td>{{product.details}}</td>
+      <td>{{product.countryManufacturing}}</td>
+      <td>{{product.Price  | currency }}</td>
+      <td>{{product.available}}</td>
+      <td>{{product.sold}}</td>
+
+      <td>
+        <div class="form-group btn-group">
+          <a title="editar" class="btn" (click)="onEdit(product)">
+            <i class="fa fa-pencil-square-o"></i>
+          </a>
+          <a title="eliminar" class="btn" (click)="onDelete(product.$key)">
+            <i class="fa fa-trash-o"></i>
+          </a>
+
+        </div>
+      </td>
+
+
+
+
+
+    </tr>
+  </tbody>
+</table>
+<!--Paginacion -->
+<div class="row">
+  <nav aria-label="pagination example">
+    <ul class="pagination pagination-circle pg-blue mb-0">
+      <pagination-controls maxSize="10" previousLabel="back" nextLabel="next" id="product" (pageChange)="cambioPagina($event)">
+      </pagination-controls>
+    </ul>
+  </nav>
+  <br />
+</div>
