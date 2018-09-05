@@ -1,0 +1,14 @@
+C:\Users\DELL 7000\source\repos\prueba\prueba\bin\Debug\netcoreapp2.1\prueba.deps.json
+C:\Users\DELL 7000\source\repos\prueba\prueba\bin\Debug\netcoreapp2.1\prueba.runtimeconfig.json
+C:\Users\DELL 7000\source\repos\prueba\prueba\bin\Debug\netcoreapp2.1\prueba.runtimeconfig.dev.json
+C:\Users\DELL 7000\source\repos\prueba\prueba\bin\Debug\netcoreapp2.1\prueba.dll
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.csprojAssemblyReference.cache
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.csproj.CoreCompileInputs.cache
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.RazorAssemblyInfo.cache
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.RazorAssemblyInfo.cs
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.AssemblyInfoInputs.cache
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.AssemblyInfo.cs
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.RazorTargetAssemblyInfo.cache
+C:\Users\DELL 7000\source\repos\prueba\prueba\bin\Debug\netcoreapp2.1\prueba.pdb
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.dll
+C:\Users\DELL 7000\source\repos\prueba\prueba\obj\Debug\netcoreapp2.1\prueba.pdb
