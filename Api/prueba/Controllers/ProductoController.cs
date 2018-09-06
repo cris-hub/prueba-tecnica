@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using prueba.helppers;
 using prueba.models;
 using prueba.services;
 
@@ -21,11 +22,14 @@ namespace prueba.Controllers
         }
 
         [HttpGet("GetList")]
-        public async Task<IActionResult> GetList()
+        public async Task<IActionResult> GetList([FromQuery] Paginacion paginacion)
         {
             try
             {
-                return Ok(await _productService.ListaProductos());
+
+                var productos = await _productService.ListaProductos();
+                var resul = new { productos = productos.ToList().Skip(paginacion.RegistrosOmitir()).Take(paginacion.CantidadRegistrosMostrar), totalRegistrosBD = productos.Count()};
+                return Ok(resul);
             }
             catch (Exception)
             {
@@ -34,7 +38,7 @@ namespace prueba.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("Get")]
         public async Task<IActionResult> Get([FromQuery] string partitionKey, string rowKey)
         {
             try
@@ -49,12 +53,12 @@ namespace prueba.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> Post([FromBody] ProductoEntity producto)
         {
             try
             {
-                var productResult = await _productService.CrearProducto(producto.Nombre, producto.HoraRevision);
+                var productResult = await _productService.CrearProducto(producto);
                 return Ok(productResult);
             }
             catch (Exception)
@@ -65,7 +69,7 @@ namespace prueba.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<IActionResult> Put([FromBody] ProductoEntity Producto)
         {
             try
@@ -79,7 +83,7 @@ namespace prueba.Controllers
             }
         }
 
-        [HttpDelete()]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(string partitionKey, string rowKey)
         {
             try

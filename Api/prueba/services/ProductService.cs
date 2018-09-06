@@ -1,10 +1,13 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using prueba.enums;
 using prueba.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using prueba.helppers;
 
 namespace prueba.services
 {
@@ -27,8 +30,9 @@ namespace prueba.services
                 ProductoEntity productoResult = await ObtenerProducto(producto.PartitionKey, producto.RowKey);
                 if (productoResult != null)
                 {
-                    TableOperation operation = TableOperation.Merge(producto);
-                    await _table.ExecuteAsync(operation);
+                    TableOperation operation = TableOperation.InsertOrReplace(producto);
+                     var productResponse = await _table.ExecuteAsync(operation);
+                    return productResponse.Result as ProductoEntity;
 
                 }
                 else
@@ -46,17 +50,17 @@ namespace prueba.services
             }
         }
 
-        public async Task<ProductoEntity> CrearProducto(string nombre, DateTime? horaRevision)
+        public async Task<ProductoEntity> CrearProducto(ProductoEntity producto)
         {
 
             try
             {
 
-                await _table.CreateIfNotExistsAsync();
-                var product = new ProductoEntity() { Nombre = nombre, HoraRevision = horaRevision };
-                TableOperation operation = TableOperation.Insert(product);
+                producto.RowKey = Guid.NewGuid().ToString();
+                producto.PartitionKey = DateTime.Now.Year.ToString();
+                TableOperation operation = TableOperation.Insert(producto);
                 await _table.ExecuteAsync(operation);
-                return product;
+                return producto;
 
             }
             catch (Exception)
@@ -94,7 +98,6 @@ namespace prueba.services
             {
                 TableQuery<ProductoEntity> query = new TableQuery<ProductoEntity>();
                 TableContinuationToken toke = new TableContinuationToken();
-
                 return await _table.ExecuteQuerySegmentedAsync(query, toke);
             }
             catch (Exception)
@@ -119,5 +122,31 @@ namespace prueba.services
                 throw;
             }
         }
+
+
+
+        public async Task<List<ProductoEntity>> ActualizarFechaRevisonProducto()
+        {
+            try
+            {
+                List<ProductoEntity> ProductosActualizados = new List<ProductoEntity>();
+                var productos = await ListaProductos();
+                var productosActualizar = productos.Where(t => t.Estado == (int)ESTADOS_PRODUCTO.revision);
+
+                foreach (var producto in productosActualizar)
+                {
+                    producto.HoraRevision = DateTime.Now;
+                    var productoActualizado = await ActualizarProducto(producto);
+                    ProductosActualizados.Add(productoActualizado);
+                }
+                return ProductosActualizados;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }

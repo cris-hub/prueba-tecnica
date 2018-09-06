@@ -8,7 +8,7 @@ namespace prueba.services
 {
     public interface IProductService
     {
-        Task<ProductoEntity> CrearProducto(string nombre, DateTime? horaRevision);
+        Task<ProductoEntity> CrearProducto(ProductoEntity producto);
         Task<ProductoEntity> ActualizarProducto(ProductoEntity producto);
         Task<ProductoEntity> ObtenerProducto(string partitionKey, string rowKey);
         Task<bool> EliminarProducto(string partitionKey, string rowKey);

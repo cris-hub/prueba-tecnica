@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,11 +37,10 @@ namespace prueba
                       .AllowAnyHeader()
                       .AllowCredentials();
             }));
-
-            services.AddMvc().AddJsonOptions(opt => {
+            services.AddMvc().AddJsonOptions(opt =>
+            {
                 opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
             });
             services.AddRouting();
             services.AddSwaggerGen(c =>
@@ -47,11 +48,16 @@ namespace prueba
                 c.SwaggerDoc("v1", new Info { Title = "API product", Version = "v1" });
             });
             services.AddEntityServices();
+
+            services.AddHangfire(x => x.UseMemoryStorage());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            GlobalConfiguration.Configuration.UseMemoryStorage();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -62,13 +68,17 @@ namespace prueba
             }
             app.UseCors("producPolity");
             app.UseMvcWithDefaultRoute();
-            app.UseSwagger();
             app.UseStaticFiles();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "prueba");
             });
             app.UseHttpsRedirection();
+            ProductService productoService = new ProductService();
+            RecurringJob.AddOrUpdate(() => productoService.ActualizarFechaRevisonProducto(), Cron.Minutely());
             app.UseMvc();
         }
     }
